@@ -1,4 +1,4 @@
-\# PDF Chat App
+\# AI Agent App
 
 A web application where you can upload any PDF doc, use ChatGPT API, and answer questions related to it.
 
