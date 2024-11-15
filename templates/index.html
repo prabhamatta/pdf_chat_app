@@ -1,0 +1,185 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Chat Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        #chat-container {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        
+        #chat-history {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #eee;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: 20%;
+        }
+        
+        .bot-message {
+            background-color: #f5f5f5;
+            margin-right: 20%;
+        }
+        
+        #upload-container {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Chat Application</h1>
+    
+    <div id="upload-container">
+        <h2>Upload your PDF</h2>
+        <input type="file" id="file-input" accept=".pdf">
+        <button onclick="uploadFile()">Upload</button>
+    </div>
+    
+    <div id="chat-container">
+        <div id="chat-history"></div>
+        <div id="input-container">
+            <input type="text" id="question-input" placeholder="Ask a question about your document...">
+            <button onclick="askQuestion()">Ask</button>
+        </div>
+    </div>
+
+    <script>
+        let fileUploaded = false;
+        
+        async function uploadFile() {
+            const fileInput = document.getElementById('file-input');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a file first');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('File uploaded successfully');
+                    fileUploaded = true;
+                } else {
+                    alert(data.error || 'Upload failed');
+                }
+            } catch (error) {
+                alert('Error uploading file');
+                console.error('Error:', error);
+            }
+        }
+        
+        async function askQuestion() {
+            if (!fileUploaded) {
+                alert('Please upload a document first');
+                return;
+            }
+            
+            const questionInput = document.getElementById('question-input');
+            const question = questionInput.value.trim();
+            
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+            
+            appendMessage('user', question);
+            questionInput.value = '';
+            
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    appendMessage('bot', data.response);
+                } else {
+                    appendMessage('bot', 'Error: ' + (data.error || 'Failed to get response'));
+                }
+            } catch (error) {
+                appendMessage('bot', 'Error: Failed to get response');
+                console.error('Error:', error);
+            }
+        }
+        
+        function appendMessage(sender, message) {
+            const chatHistory = document.getElementById('chat-history');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = message;
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+        
+        // Add enter key listener for question input
+        document.getElementById('question-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                askQuestion();
+            }
+        });
+    </script>
+</body>
+</html>
