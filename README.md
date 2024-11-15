@@ -4,18 +4,18 @@
 ------------------------------------
 ------------------------------------
 
-Pre-Project setup on Mac:
-# Install Homebrew first if you haven't:
+**Pre-Project setup on Mac:
+Install Homebrew first if you haven't:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Then install Python (includes pip):
+Then install Python (includes pip):
 brew install python
 
-# Verify installation on macOS/Linux:
+Verify installation on macOS/Linux:
 pip3 --version
 
-# Upgrading pip (all platforms):
-# macOS/Linux:
+Upgrading pip (all platforms):
+macOS/Linux:
 pip3 install --upgrade pip
 
 
