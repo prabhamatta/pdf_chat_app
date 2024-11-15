@@ -25,27 +25,27 @@ pip3 install --upgrade pip
 
 
 
-**Step1: let's create the project directory structure:
-# Create project directory and subdirectories
+*Step1: let's create the project directory structure:
+** Create project directory and subdirectories
 mkdir pdf_chat_app
 cd pdf_chat_app
 mkdir templates uploads
 touch app.py .env
 
-# Create a virtual environment and activate it
+* Create a virtual environment and activate it
 python3 -m venv venv
 
-# On macOS/Linux:
+* On macOS/Linux:
 source venv/bin/activate
 
-# Install required packages
+* Install required packages
 pip3 install flask PyPDF2 python-dotenv openai
 
 ------------------------------------
 ------------------------------------
 
 **Step2, you'll need to get an OpenAI API key:
-
+**
 
 Go to https://platform.openai.com/
 Sign up or log in
@@ -56,22 +56,22 @@ Copy the key (you won't be able to see it again)
 ------------------------------------
 ------------------------------------
 
-**Step3:Create the .env file:
-
+** Step3:Create the .env file:
+**
 OPENAI_API_KEY=your_api_key_here
 ------------------------------------
 ------------------------------------
 
 
-**Step4: Create the app.py file in your project directory:
-
+** Step4: Create the app.py file in your project directory:
+**
 see the Python code in app.py
 
 ------------------------------------
 ------------------------------------
 
-**Step 6: Create index.html in the templates directory:
-
+** Step 6: Create index.html in the templates directory:
+**
 
 See HTML code in templates/index.html
 
@@ -86,19 +86,18 @@ Copypdf_chat_app/
 │   └── index.html
 └── uploads/
 
-**Step7: Run the application:
-
-# Make sure your virtual environment is activated
-# On macOS/Linux:
+** Step7: Run the application:
+**
+Make sure your virtual environment is activated
+On macOS/Linux:
 source venv/bin/activate
 
-# Run the Flask application
+Run the Flask application
 python3 app.py
 
-**Step8: Access the application:
+** Step8: Access the application:
+**
 
-
-** Step8: Open your web browser
 Go to http://127.0.0.1:5000
 You should see the PDF Chat Application interface
 
