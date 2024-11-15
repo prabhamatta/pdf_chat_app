@@ -51,7 +51,9 @@ python3 -m venv venv
 source venv/bin/activate
 
 \* Install required packages
+
 pip install --upgrade pip
+
 python3 -m pip install flask PyPDF2 python-dotenv openai BeautifulSoup4 requests
 
 \* Verify the installation
